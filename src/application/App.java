@@ -32,8 +32,6 @@ public class App {
 
         System.out.print("Entre com o número de parcelas: ");
         int n = sc.nextInt(); 
-       
-        double amount = contract.getTotalvalue();
 
         ContractService contractService = new ContractService(new PaypalService());
               
