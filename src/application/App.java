@@ -7,6 +7,10 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import model.entities.Contract;
+import model.entities.Installment;
+import model.services.ContractService;
+import model.services.OnlinePaymentService;
+import model.services.PaypalService;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -14,7 +18,6 @@ public class App {
         Scanner sc = new Scanner(System.in);
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
-
         System.out.println("Entre os dados do contrato:");
         System.out.print("Numero: ");
         int number = sc.nextInt();
@@ -27,8 +30,20 @@ public class App {
 
         Contract contract = new Contract(number, date, totalValue);
 
+        System.out.print("Entre com o número de parcelas: ");
+        int n = sc.nextInt(); 
+       
+        double amount = contract.getTotalvalue();
 
-
+        ContractService contractService = new ContractService(new PaypalService());
+              
+        contractService.processContract(contract, n);
+       
+        System.out.println();
+        System.out.println("PARCELAS: ");
+        for (Installment installment : contract.getInstallments()) {
+            System.out.println(installment);    
+        }
 
         sc.close();
 
